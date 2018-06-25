@@ -29,6 +29,8 @@ build:
     go version
     go env
     cd /go/src/gitlab.com/crankykernel/cryptoxscanner
+    pwd
+    ls -la
     git symbolic-ref HEAD | sed -e "s/^refs\/heads\///"
     make install-deps
     CC=gcc GOOS=linux GOARCH=amd64 make dist
