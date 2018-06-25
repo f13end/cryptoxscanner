@@ -31,6 +31,8 @@ build:
     cd /go/src/gitlab.com/crankykernel/cryptoxscanner
     pwd
     ls -la
+    git status
+    git branch
     git symbolic-ref HEAD | sed -e "s/^refs\/heads\///"
     make install-deps
     CC=gcc GOOS=linux GOARCH=amd64 make dist
