@@ -2,11 +2,14 @@ image: centos:7
 
 before_script:
   # Install required system packages.
-  - yum -y install git make zip
+  - yum -y install epel-release
+  - yum -y install git make zip mingw64-gcc mingw32-gcc
 
   # Copy the project into the GOPATH.
-  - mkdir -p /go/src/gitlab.com/crankykernel/cryptoxscanner
-  - cp -a . /go/src/gitlab.com/crankykernel/cryptoxscanner
+  # - mkdir -p /go/src/gitlab.com/crankykernel/cryptoxscanner
+  # - cp -a . /go/src/gitlab.com/crankykernel/cryptoxscanner
+  - mkdir -p /go/src/gitlab.com/crankykernel
+  - cp -a ../cryptoxscanner /go/src/gitlab.com/crankykernel
 
   # Download and install Go.
   - curl -o /tmp/go.tar.gz -L https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz
@@ -21,13 +24,12 @@ before_script:
 
 build:
   script: |
-    yum -y install epel-release
-    yum -y install mingw64-gcc mingw32-gcc
     export GOPATH=/go
     export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
     go version
     go env
     cd /go/src/gitlab.com/crankykernel/cryptoxscanner
+    git symbolic-ref HEAD | sed -e "s/^refs\/heads\///"
     make install-deps
     CC=gcc GOOS=linux GOARCH=amd64 make dist
     CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 make dist
