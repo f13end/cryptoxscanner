@@ -1,5 +1,5 @@
 APP :=		cryptoxscanner
-VERSION :=	$(shell git symbolic-ref HEAD | sed -e "s/^refs\/heads\///")
+VERSION ?=	$(shell git rev-parse --abbrev-ref HEAD)
 
 # SQLite will be used soon.
 CGO_ENABLED :=	1
